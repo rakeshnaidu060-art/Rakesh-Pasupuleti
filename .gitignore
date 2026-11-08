@@ -1,0 +1,28 @@
+# Secrets
+.streamlit/secrets.toml
+.env
+.env.*
+!secrets.toml.example
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Python caches and build output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.gstack/

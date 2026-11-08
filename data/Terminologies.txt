@@ -1,0 +1,83 @@
+Terminologies
+
+## Architecture model
+
+**Element:** Any single item in the architecture model. Every row in the Elements sheet is an element and becomes one node in Neo4j.
+
+**Domain:** One of the ten broad areas of business in P180, such as Sales or Cargo. It is the top level of the model.
+
+**Subdomain:** A part of a domain that groups related work, such as Reservation Ticketing within Sales.
+
+**Capability:** Something the airline needs to be able to do, such as Check In Passenger. It describes what the business does, not which software does it.
+
+**Application:** A software system that supports one or more capabilities, such as Booking System. Applications are what get replaced in the change scenario.
+
+**Platform:** An outer box in a P180 technology figure that hosts applications or technology components, such as Tracking Platform.
+
+**Technology component:** An inner box in a technology figure that is not an application from a mapping figure, such as ACARS or Data Warehousing.
+
+**Data object:** A type of business information the airline keeps, such as Customer or Ticket. Data objects shared between domains are what connect the domains.
+
+**Interface:** The point where two applications exchange data. The project brief asks about interfaces, but P180 does not document them, so none are in the model yet.
+
+**Dependency:** When one application relies on another to work. P180 does not document dependencies, which is the main limit on finding indirect impact.
+
+## Relationships
+
+**Relationship:** A link between two elements. Every row in the Relationships sheet is one, with a type, a status and a source.
+
+**Realizes:** An application supports a capability. For example, Booking System realizes Create Reservation.
+
+**Belongs to:** Membership or hierarchy: a subdomain in a domain, an application in a subdomain, a component on a platform, or a data object inside a container.
+
+**Associated with:** A line between two data objects in a P180 data model. The direction has no meaning.
+
+**Used in:** A data object or platform appears in a domain's figure. This is how the graph connects domains.
+
+**Depends on:** One application relies on another element. It is empty for now and reserved for links added as Inferred or Illustrative, or confirmed by Lufthansa.
+
+## Trust and evidence
+
+**Source of truth:** The one place facts are allowed to come from. In this project, that is P180, captured in the Excel model.
+
+**Evidence:** The P180 page that supports a statement. Evidence is stored as nodes in the graph and cited by page number in answers.
+
+**Documented fact:** A statement shown directly in P180, such as an application realizing a capability.
+
+**Inference:** A conclusion derived from documented facts but not shown in P180, such as two applications being affected because they share a platform.
+
+**Recommendation:** A suggested action for an architect to validate, such as confirming an interface before a replacement.
+
+**Illustrative:** A link the team adds for the demo that P180 does not contain. It is always marked so it is never mistaken for fact.
+
+**Uncovered capability:** A capability that only the replaced application supports. This is the strongest risk the Advisor can report from P180 alone.
+
+## Build and technology
+
+**Knowledge graph:** The architecture model stored as nodes and relationships, so connections can be followed and queried.
+
+**Node:** One point in the graph. Each element in the Excel becomes one node.
+
+**Neo4j:** The graph database that stores the knowledge graph and the vector index, hosted on AuraDB Free.
+
+**Cypher:** Neo4j's query language. The impact analysis runs only predefined Cypher queries.
+
+**Impact analysis:** Following the graph from a replaced application to everything it touches. It is done by code, not by the AI.
+
+**Direct impact:** Elements linked straight to the replaced application, such as its capabilities and its platform.
+
+**Indirect impact:** Elements reached through more than one link, such as other domains that share data with the application's domain.
+
+**Impact path:** The chain of links that explains why an element is affected. It is shown so every finding can be traced.
+
+**RAG (retrieval-augmented generation):** Finding the relevant P180 text and giving it to the LLM, so answers are grounded in the source and cited.
+
+**Embedding:** A list of numbers that represents the meaning of a piece of text, so texts with similar meaning can be found.
+
+**Vector index:** An index in Neo4j that finds the P180 pages closest in meaning to a question.
+
+**LLM (large language model):** The AI model, from OpenAI. It only parses questions and writes explanations from the data it is given.
+
+**Streamlit:** The Python framework used for the web app: chat, answers, evidence and the mind map.
+
+**Mind map:** The interactive graph view in the app, with the replaced application in the centre. Solid lines are documented links and dashed lines are inferred ones.
